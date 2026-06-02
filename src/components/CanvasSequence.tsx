@@ -35,10 +35,6 @@ export default function CanvasSequence() {
         const onImageReady = () => {
           loadedCount++;
           setLoadProgress(Math.round((loadedCount / (FRAME_COUNT - 1)) * 100));
-          
-          if (loadedCount === FRAME_COUNT - 1) {
-            initAnimation();
-          }
         };
 
         img.onload = onImageReady;
@@ -50,7 +46,8 @@ export default function CanvasSequence() {
     const firstImg = loadedImages[0];
     firstImg.onload = () => {
       firstFrameLoaded = true;
-      setImagesLoaded(true); // Remove loader immediately
+      setImagesLoaded(true);
+      initAnimation(); // START ANIMATION IMMEDIATELY!
       renderFrame(0, 1);
       loadRemainingFrames();
     };
@@ -58,6 +55,7 @@ export default function CanvasSequence() {
     firstImg.onerror = () => {
       firstFrameLoaded = true;
       setImagesLoaded(true);
+      initAnimation();
       loadRemainingFrames();
     };
     

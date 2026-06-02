@@ -16,6 +16,17 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     });
 
     lenis.on('scroll', ScrollTrigger.update);
+    
+    // Ensure GSAP recalculates heights after all assets (fonts, images) load in production
+    const handleLoad = () => {
+      ScrollTrigger.refresh();
+    };
+    
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
 
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
@@ -24,6 +35,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      window.removeEventListener('load', handleLoad);
       lenis.destroy();
     };
   }, []);
