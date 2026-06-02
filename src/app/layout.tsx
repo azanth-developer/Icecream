@@ -27,11 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${playfair.variable} antialiased bg-background text-foreground overflow-x-hidden w-full max-w-[100vw]`}
+        className={`${inter.variable} ${playfair.variable} antialiased bg-background text-foreground`}
       >
         <SmoothScroll>
-          <Navbar />
-          {children}
+          <div className="relative w-full overflow-x-hidden">
+            <Navbar />
+            {children}
+          </div>
         </SmoothScroll>
       </body>
     </html>
