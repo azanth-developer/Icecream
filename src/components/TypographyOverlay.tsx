@@ -39,9 +39,14 @@ export default function TypographyOverlay({ containerRef }: { containerRef: RefO
       {/* 10% */}
       <motion.div 
         style={{ opacity: opacityBoom, y: yBoom }}
-        className="absolute w-[90vw] max-w-[800px] h-[40vh] flex items-center justify-center"
+        className="absolute w-full h-screen flex flex-col items-center justify-center text-center px-4"
       >
-        <Image src="/logo.png" alt="BOOM" fill className="object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" priority />
+        <h1 className="font-playfair font-bold text-[15vw] md:text-[12vw] text-white leading-none tracking-tight drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+          BOOM
+        </h1>
+        <p className="font-inter font-light tracking-[0.4em] text-white/80 text-sm md:text-xl uppercase mt-4 drop-shadow-md">
+          Ice Cream
+        </p>
       </motion.div>
 
       {/* 20% */}

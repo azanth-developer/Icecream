@@ -7,6 +7,7 @@ export default function VideoSequence() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const scaleContainerRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
+  const [loadProgress, setLoadProgress] = useState(0);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -18,6 +19,7 @@ export default function VideoSequence() {
     let st: ScrollTrigger | null = null;
 
     const initAnimation = () => {
+      if (!video) return;
       const duration = video.duration;
       if (!duration) return;
 
@@ -39,7 +41,7 @@ export default function VideoSequence() {
             video.currentTime = targetTime;
           }
 
-          // Apply dynamic zoom as requested (camera gets closer to product)
+          // Apply dynamic zoom
           gsap.set(scaleContainer, {
             scale: 1.0 + (progress * 0.3)
           });
@@ -47,15 +49,49 @@ export default function VideoSequence() {
       });
     };
 
-    video.load();
-    if (video.readyState >= 1) { // HAVE_METADATA or better
-      initAnimation();
-    } else {
-      video.addEventListener('loadedmetadata', initAnimation);
-    }
+    // Preload video as a blob to prevent network buffering during scrubbing
+    const fetchVideoBlob = async () => {
+      try {
+        const response = await fetch('/assets/video.mp4');
+        const reader = response.body?.getReader();
+        const contentLength = +(response.headers.get('Content-Length') || '7000000');
+        
+        let receivedLength = 0;
+        const chunks = [];
+        
+        if (reader) {
+          while (true) {
+            const {done, value} = await reader.read();
+            if (done) break;
+            chunks.push(value);
+            receivedLength += value.length;
+            setLoadProgress(Math.round((receivedLength / contentLength) * 100));
+          }
+          const blob = new Blob(chunks, { type: 'video/mp4' });
+          const url = URL.createObjectURL(blob);
+          
+          if (video) {
+            video.src = url;
+            video.load();
+            video.onloadedmetadata = () => {
+              initAnimation();
+            };
+          }
+        }
+      } catch (err) {
+        console.error("Failed to preload video:", err);
+        // Fallback to streaming if blob fetch fails
+        if (video) {
+          video.src = '/assets/video.mp4';
+          video.load();
+          video.onloadedmetadata = () => initAnimation();
+        }
+      }
+    };
+
+    fetchVideoBlob();
 
     return () => {
-      video.removeEventListener('loadedmetadata', initAnimation);
       st?.kill();
     };
   }, []);
@@ -63,15 +99,19 @@ export default function VideoSequence() {
   return (
     <div className="w-full h-full bg-[#0A0A0A] relative flex items-center justify-center overflow-hidden">
       {!isReady && (
-        <div className="absolute inset-0 flex items-center justify-center text-cream/50 font-inter tracking-[0.3em] text-sm md:text-base z-50 bg-[#0A0A0A]">
-          LOADING 8K EXPERIENCE...
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0A0A0A] z-50">
+          <div className="text-cream/70 font-inter tracking-[0.3em] text-sm md:text-base mb-4">
+            BUFFERING LUXURY EXPERIENCE
+          </div>
+          <div className="w-64 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-full bg-gold transition-all duration-300" style={{ width: `${loadProgress}%` }} />
+          </div>
         </div>
       )}
       <div ref={scaleContainerRef} className="w-full h-full origin-center">
         <video
           ref={videoRef}
           className="w-full h-full object-cover"
-          src="/assets/video.mp4"
           preload="auto"
           muted
           playsInline
