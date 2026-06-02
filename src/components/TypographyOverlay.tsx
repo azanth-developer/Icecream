@@ -1,6 +1,7 @@
 'use client';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { RefObject } from 'react';
+import Image from 'next/image';
 
 export default function TypographyOverlay({ containerRef }: { containerRef: RefObject<HTMLElement | null> }) {
   const { scrollYProgress } = useScroll({
@@ -36,17 +37,17 @@ export default function TypographyOverlay({ containerRef }: { containerRef: RefO
     <div className="absolute inset-0 pointer-events-none flex items-center justify-center text-center px-4">
       
       {/* 10% */}
-      <motion.h1 
+      <motion.div 
         style={{ opacity: opacityBoom, y: yBoom }}
-        className="absolute text-[15vw] md:text-[12vw] font-light font-playfair tracking-[0.2em] text-cream uppercase drop-shadow-lg"
+        className="absolute w-[90vw] max-w-[800px] h-[40vh] flex items-center justify-center"
       >
-        BOOM
-      </motion.h1>
+        <Image src="/logo.png" alt="BOOM" fill className="object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" priority />
+      </motion.div>
 
       {/* 20% */}
       <motion.h2 
         style={{ opacity: opacityNotJust, y: yNotJust }}
-        className="absolute text-3xl md:text-5xl font-light font-inter tracking-[0.2em] text-cream leading-loose uppercase drop-shadow-md"
+        className="absolute text-3xl md:text-5xl font-light font-inter tracking-[0.2em] text-cream leading-loose uppercase drop-shadow-[0_0_20px_rgba(0,0,0,0.9)] text-center"
       >
         Not Just <br className="md:hidden" /><span className="text-gold italic font-playfair lowercase text-5xl md:text-7xl tracking-normal">Ice Cream</span>
       </motion.h2>
@@ -54,7 +55,7 @@ export default function TypographyOverlay({ containerRef }: { containerRef: RefO
       {/* 35% */}
       <motion.h2 
         style={{ opacity: opacityCrafted, y: yCrafted }}
-        className="absolute text-2xl md:text-4xl font-light font-inter tracking-[0.15em] text-cream leading-loose uppercase drop-shadow-md"
+        className="absolute text-2xl md:text-4xl font-light font-inter tracking-[0.15em] text-cream leading-loose uppercase drop-shadow-[0_0_20px_rgba(0,0,0,0.9)] text-center"
       >
         Crafted From <br className="md:hidden" /><span className="text-gold italic font-playfair lowercase text-4xl md:text-6xl tracking-normal pr-2">premium</span> ingredients
       </motion.h2>
@@ -62,7 +63,7 @@ export default function TypographyOverlay({ containerRef }: { containerRef: RefO
       {/* 55% */}
       <motion.h2 
         style={{ opacity: opacityCravings, y: yCravings }}
-        className="absolute text-3xl md:text-5xl font-light font-inter tracking-[0.15em] text-cream leading-loose uppercase drop-shadow-md"
+        className="absolute text-3xl md:text-5xl font-light font-inter tracking-[0.15em] text-cream leading-loose uppercase drop-shadow-[0_0_20px_rgba(0,0,0,0.9)] text-center"
       >
         Every scoop creates <br/><span className="font-light font-playfair text-gold lowercase text-6xl md:text-8xl tracking-normal">cravings</span>
       </motion.h2>
@@ -70,19 +71,23 @@ export default function TypographyOverlay({ containerRef }: { containerRef: RefO
       {/* 75% */}
       <motion.h2 
         style={{ opacity: opacityRich, y: yRich }}
-        className="absolute text-5xl md:text-7xl font-light font-playfair tracking-wider text-cream leading-tight drop-shadow-md"
+        className="absolute text-5xl md:text-7xl font-light font-playfair tracking-wider text-cream leading-tight drop-shadow-[0_0_25px_rgba(0,0,0,0.9)] text-center"
       >
         Rich. <span className="text-gold italic">Creamy.</span> <br />Unforgettable.
       </motion.h2>
 
       {/* 95% */}
-      <motion.h1 
+      <motion.div 
         style={{ opacity: opacityExperience, y: yExperience }}
-        className="absolute text-2xl md:text-4xl font-light font-inter tracking-[0.2em] text-cream uppercase leading-loose drop-shadow-md"
+        className="absolute text-center flex flex-col items-center justify-center drop-shadow-[0_0_20px_rgba(0,0,0,0.9)]"
       >
-        Experience <br />
-        <span className="font-playfair font-medium text-gold tracking-widest text-6xl md:text-[6vw] mt-4 block">THE BOOM</span>
-      </motion.h1>
+        <h1 className="text-2xl md:text-4xl font-light font-inter tracking-[0.2em] text-cream uppercase leading-loose mb-12">
+          Experience
+        </h1>
+        <div className="relative w-[80vw] max-w-[600px] h-[30vh] mx-auto block">
+          <Image src="/logo.png" alt="THE BOOM" fill className="object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]" />
+        </div>
+      </motion.div>
 
     </div>
   );

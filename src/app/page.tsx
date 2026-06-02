@@ -10,6 +10,7 @@ import PremiumIngredients from "../components/sections/PremiumIngredients";
 import WhyBoom from "../components/sections/WhyBoom";
 import CustomerLove from "../components/sections/CustomerLove";
 import StoreLocator from "../components/sections/StoreLocator";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
@@ -42,6 +43,7 @@ export default function Home() {
       <WhyBoom />
       <CustomerLove />
       <StoreLocator />
+      <Footer />
     </div>
   );
 }

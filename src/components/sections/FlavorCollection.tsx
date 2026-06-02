@@ -41,7 +41,8 @@ export default function FlavorCollection() {
   }, []);
 
   return (
-    <section ref={containerRef} className="w-full h-screen overflow-hidden bg-background relative z-30">
+    <div className="w-full max-w-[100vw] overflow-hidden">
+      <section ref={containerRef} className="w-full h-screen overflow-hidden bg-background relative z-30">
       <div className="absolute top-12 left-4 md:left-20 z-20">
         <h3 className="font-inter tracking-[0.2em] text-gold uppercase text-sm mb-4">The Collection</h3>
         <h2 className="font-playfair text-4xl md:text-5xl text-cream">Signature Flavors</h2>
@@ -72,5 +73,6 @@ export default function FlavorCollection() {
         ))}
       </div>
     </section>
+    </div>
   );
 }
