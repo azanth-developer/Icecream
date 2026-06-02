@@ -20,36 +20,49 @@ export default function CanvasSequence() {
     if (!context) return;
 
     const loadedImages: HTMLImageElement[] = [];
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      loadedImages.push(new Image());
+    }
+    
     let loadedCount = 0;
-
     let firstFrameLoaded = false;
 
-    for (let i = 1; i <= FRAME_COUNT; i++) {
-      const img = new Image();
-      const frameNum = i.toString().padStart(3, '0');
-      // Pointing to the new, natively extracted high-res frames
-      img.src = `/assets/high_res_sequence/frame-${frameNum}.jpg`;
-      loadedImages.push(img);
-      
-      const onImageReady = () => {
-        loadedCount++;
-        setLoadProgress(Math.round((loadedCount / FRAME_COUNT) * 100));
+    const loadRemainingFrames = () => {
+      for (let i = 2; i <= FRAME_COUNT; i++) {
+        const img = loadedImages[i - 1];
+        const frameNum = i.toString().padStart(3, '0');
         
-        // Render first frame immediately so screen isn't blank
-        if (i === 1 && !firstFrameLoaded) {
-          firstFrameLoaded = true;
-          setImagesLoaded(true); // Remove loader immediately
-          renderFrame(0, 1);
-        }
+        const onImageReady = () => {
+          loadedCount++;
+          setLoadProgress(Math.round((loadedCount / (FRAME_COUNT - 1)) * 100));
+          
+          if (loadedCount === FRAME_COUNT - 1) {
+            initAnimation();
+          }
+        };
 
-        if (loadedCount === FRAME_COUNT) {
-          initAnimation();
-        }
-      };
+        img.onload = onImageReady;
+        img.onerror = onImageReady; // Prevent hanging on missing frames
+        img.src = `/assets/high_res_sequence/frame-${frameNum}.jpg`;
+      }
+    };
 
-      img.onload = onImageReady;
-      img.onerror = onImageReady; // Prevent hanging on missing frames
-    }
+    const firstImg = loadedImages[0];
+    firstImg.onload = () => {
+      firstFrameLoaded = true;
+      setImagesLoaded(true); // Remove loader immediately
+      renderFrame(0, 1);
+      loadRemainingFrames();
+    };
+    
+    firstImg.onerror = () => {
+      firstFrameLoaded = true;
+      setImagesLoaded(true);
+      loadRemainingFrames();
+    };
+    
+    // Start loading the first frame
+    firstImg.src = `/assets/high_res_sequence/frame-001.jpg`;
 
     const renderFrame = (index: number, scaleFactor: number) => {
       // Ensure index is within bounds
