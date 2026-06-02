@@ -2,7 +2,6 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const flavors = [
@@ -28,7 +27,6 @@ export default function FlavorCollection() {
         start: 'top top',
         end: `+=${totalScroll}`,
         pin: true,
-        pinSpacing: true,
         scrub: 1, // Smooth horizontal slide
         animation: gsap.to(track, {
           x: -totalScroll,
@@ -52,14 +50,7 @@ export default function FlavorCollection() {
       
       <div ref={trackRef} className="flex h-full w-[400vw]">
         {flavors.map((flavor, idx) => (
-          <motion.div 
-            key={idx} 
-            initial={{ opacity: 0, filter: 'blur(10px)' }}
-            whileInView={{ opacity: 1, filter: 'blur(0px)' }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 1 }}
-            className="w-screen h-screen flex flex-col md:flex-row items-center justify-center flex-shrink-0 relative px-6 md:px-24 gap-12 md:gap-24 pt-32 md:pt-0"
-          >
+          <div key={idx} className="w-screen h-screen flex flex-col md:flex-row items-center justify-center flex-shrink-0 relative px-6 md:px-24 gap-12 md:gap-24 pt-32 md:pt-0">
             <div className={`absolute inset-0 opacity-10 ${flavor.color} blur-[150px] transform scale-150 pointer-events-none`}></div>
             
             {/* Text Side */}
@@ -78,7 +69,7 @@ export default function FlavorCollection() {
                 <Image src={flavor.img} alt={`${flavor.name} Tub`} fill className="object-cover" />
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>

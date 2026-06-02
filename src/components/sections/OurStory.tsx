@@ -5,7 +5,7 @@ import { useRef } from 'react';
 
 export default function OurStory() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section className="w-full bg-background text-cream py-32 px-4 md:px-20 relative z-30 border-t border-white/5">
@@ -13,7 +13,7 @@ export default function OurStory() {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1.0] }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
           <h3 className="font-inter tracking-[0.2em] text-gold uppercase text-sm mb-6">Our Legacy</h3>
           <h2 className="font-playfair text-5xl md:text-7xl leading-tight mb-8">
@@ -30,7 +30,7 @@ export default function OurStory() {
           className="relative aspect-[3/4] overflow-hidden rounded-2xl shadow-2xl border border-white/10"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-          transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1.0], delay: 0.2 }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
         >
           <Image 
             src="/assets/images/editorial.png" 
