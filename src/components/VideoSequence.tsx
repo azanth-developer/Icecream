@@ -73,9 +73,13 @@ export default function VideoSequence() {
           if (video) {
             video.src = url;
             video.load();
-            video.onloadedmetadata = () => {
+            if (video.readyState >= 1) {
               initAnimation();
-            };
+            } else {
+              video.onloadedmetadata = () => {
+                initAnimation();
+              };
+            }
           }
         }
       } catch (err) {
@@ -84,7 +88,11 @@ export default function VideoSequence() {
         if (video) {
           video.src = '/assets/video.mp4';
           video.load();
-          video.onloadedmetadata = () => initAnimation();
+          if (video.readyState >= 1) {
+            initAnimation();
+          } else {
+            video.onloadedmetadata = () => initAnimation();
+          }
         }
       }
     };
