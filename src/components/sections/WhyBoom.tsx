@@ -10,7 +10,7 @@ const stats = [
 
 export default function WhyBoom() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
     <section className="w-full py-32 bg-background relative z-30 border-b border-white/5">

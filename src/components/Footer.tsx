@@ -1,9 +1,20 @@
+'use client';
+import { useRef } from 'react';
 import Image from 'next/image';
+import { motion, useInView } from 'framer-motion';
 
 export default function Footer() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
+
   return (
-    <footer className="w-full bg-background border-t border-white/10 pt-20 pb-10 px-4 z-40 relative">
-      <div className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center">
+    <footer ref={ref} className="w-full bg-background border-t border-white/10 pt-20 pb-10 px-4 z-40 relative">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 1 }}
+        className="max-w-7xl mx-auto flex flex-col items-center justify-center text-center"
+      >
         <div className="relative w-72 h-32 mb-12 opacity-90 hover:opacity-100 transition-opacity duration-500">
           <Image 
             src="/logo.png" 
@@ -24,7 +35,7 @@ export default function Footer() {
         <div className="text-cream/40 font-inter text-xs tracking-widest uppercase">
           &copy; {new Date().getFullYear()} BOOM Ice Cream. All rights reserved.
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }
