@@ -1,6 +1,6 @@
 'use client';
 import { useRef } from 'react';
-import CanvasSequence from "../components/CanvasSequence";
+import VideoSequence from "../components/VideoSequence";
 import TypographyOverlay from "../components/TypographyOverlay";
 import ParticlesAndEffects from "../components/ParticlesAndEffects";
 
@@ -22,7 +22,7 @@ export default function Home() {
         <div className="sticky top-0 w-full h-screen overflow-hidden bg-background flex items-center justify-center">
           
           <div className="absolute inset-0 z-0 origin-center">
-            <CanvasSequence />
+            <VideoSequence />
           </div>
           
           <div className="absolute inset-0 z-10 pointer-events-none">
